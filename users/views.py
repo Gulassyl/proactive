@@ -35,13 +35,13 @@ class UserProfileView(TitleMixin, UpdateView):
     title = 'Proactive - Профиль'
 
     def get_success_url(self):
-        return reverse_lazy('users:profile', args=(self.get_object.id,))
+        return reverse_lazy('users:profile', kwargs={'pk': self.kwargs['pk']})
 
     def dispatch(self, request, *args, **kwargs):
         # Получить идентификатор пользователя, который отправил запрос на редактирование профиля
         user_id = kwargs.get("pk")
 
-    # Проверить, авторизован ли текущий пользователь, и имеет ли он право редактировать этот профиль
+    # # Проверить, авторизован ли текущий пользователь, и имеет ли он право редактировать этот профиль
         if not self.request.user.is_authenticated or self.request.user.id != user_id:
             return HttpResponseForbidden("У вас нет прав на редактирование этого профиля")
 
